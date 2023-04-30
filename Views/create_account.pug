@@ -1,0 +1,32 @@
+doctype html 
+html 
+    head
+        title #{title}
+        block css
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        
+        block script
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    
+    body
+        div(class="container text-center")
+            br
+            h1 Thanks for creating a new account! 
+            h4 Enter a username and password below to create your account.
+            br
+            form(role="form" method="POST" action="http://localhost:3000/app/signup")
+                div 
+                    label(for="username") Enter a username: 
+                    input(type="text" name="username") 
+                br
+                div 
+                    label(for="password") Enter a password: 
+                    input(type="password" name="password")
+                br
+                div 
+                    label(for="password_confirm") Confirm password: 
+                    input(type="password" name="password_confirm")
+                br
+                button(class="btn btn-primary") Create Account
