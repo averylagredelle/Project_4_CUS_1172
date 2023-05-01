@@ -5,10 +5,10 @@ var loadDatabase = (file_name, format = {}) => {
         fs.writeFileSync(file_name, JSON.stringify(format));
     }
 
-    let fileData = require(file_name);
+    let model = require(file_name);
 
     var db = {
-        model: fileData,
+        model: model,
         fileName: file_name,
         update: () => {
             fs.writeFileSync(file_name, JSON.stringify(model));

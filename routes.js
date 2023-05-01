@@ -42,8 +42,6 @@ router.get("/signup", function(req, res) {
 })
 
 router.post("/signup", function(req, res) {
-    console.log(req.body);
-    console.log(req.body.username);
     const {username, password, password_confirm} = req.body;
     let username_taken = false;
     let passwords_match = false;
@@ -58,6 +56,12 @@ router.post("/signup", function(req, res) {
     }
 
     if(passwords_match && !username_taken) {
+        db.model.users.push({
+            username: username,
+            password: password,
+            videos_posted: []
+        });
+        db.update();
         res.send(getView("./Views/home.pug", {title: "Video Share App - Home"}));
     }
     else {
