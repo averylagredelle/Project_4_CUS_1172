@@ -16,7 +16,7 @@ html
             h1 Thanks for creating a new account! 
             h4 Enter a username and password below to create your account.
             br
-            form(role="form" method="POST" action="http://localhost:3000/auth/register")
+            form(role="form" method="POST" action="http://localhost:3000/app/signup")
                 div 
                     label(for="username") Enter a username: 
                     input(type="text" name="username") 
@@ -29,4 +29,4 @@ html
                     label(for="password_confirm") Confirm password: 
                     input(type="password" name="password_confirm")
                 br
-                button(class="btn btn-primary") Register
+                button(class="btn btn-primary") Create Account
