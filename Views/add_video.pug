@@ -13,20 +13,20 @@ html
     body 
         div(class="container text-center")
             br
-            h4 Fill in all the boxes below to post a video to Video Share.
+            h4 Fill in all the boxes below to post a YouTube video to Video Share.
             br
             form(role="form" method="POST" action="http://localhost:3000/app/post-video")
                 div 
-                    label(for="title") Video Short Title: 
+                    label(for="title") Video Title: 
                     br
                     input(name="title" type="text")
                 div 
-                    label(for="description") Video Short Description: 
+                    label(for="description") Video Description: 
                     br
                     textarea(name="description") 
                 div 
-                    label(for="link") Video Short Embed Link: 
+                    label(for="link") Video Embed Link: 
                     br
                     input(type="text" name="link")
                 br
-                button(class="btn btn-primary") Post Video Short
+                button(class="btn btn-primary") Post Video

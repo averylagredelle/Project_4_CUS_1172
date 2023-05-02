@@ -23,7 +23,7 @@ router.get("/", function(req, res) {
 
 router.get("/home", function(req, res) {
     if(req.session.isAuthenticated) {
-        res.send(getView("./Views/home.pug", {title: "Video Share App - Home"}));
+        res.send(getView("./Views/home.pug", {title: "Video Share App - Home", current_username: req.session.userID}));
     }
     else {
         res.send(getView("./Views/Redirects/redirect_root.pug"));
@@ -40,10 +40,14 @@ router.post("/login", function(req, res) {
         if(user.username == username && user.password == password) {
             req.session.userID = username;
             req.session.isAuthenticated = true;
-            res.send(getView("./Views/Redirects/redirect_home.pug"));
         }
     }
-    res.send("Username or Password incorrect. Please go back and try again.")
+    if(req.session.isAuthenticated) {
+        res.send(getView("./Views/Redirects/redirect_home.pug"));
+    }
+    else {
+        res.send("Username or Password incorrect. Please go back and try again.");
+    }
 });
 
 router.get("/signup", function(req, res) {
