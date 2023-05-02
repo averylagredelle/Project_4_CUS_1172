@@ -4,7 +4,8 @@ const router = require("./routes.js");
 
 let db_file = "./Resources/database.json";
 let db_format = {
-    users: []
+    users: [],
+    videos: []
 }
 
 global.db = require("./database.js")(db_file, db_format);

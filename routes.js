@@ -9,21 +9,30 @@ router.use(session({
     secret: "SecretCodeLoadedFromEnvironment",
     saveUninitialized: true,
     resave: false,
-    cookie: {maxAge: 60000}
+    cookie: {maxAge: 300000}
 }));
 
 router.get("/", function(req, res) {
     if(req.session.isAuthenticated) {
-        res.send(getView("./Views/home.pug", {title: "Video Share App - Home"}));
+        res.send(getView("./Views/Redirects/redirect_home.pug"));
     }
     else {
         res.send(getView("./Views/intro.pug", {title: "Video Share App - Welcome"}));
+    }
+})
+
+router.get("/home", function(req, res) {
+    if(req.session.isAuthenticated) {
+        res.send(getView("./Views/home.pug", {title: "Video Share App - Home"}));
+    }
+    else {
+        res.send(getView("./Views/Redirects/redirect_root.pug"));
     }
 });
 
 router.get("/login", function(req, res) {
     res.send(getView("./Views/login.pug", {title: "Video Share App - Login"}));
-})
+});
 
 router.post("/login", function(req, res) {
     const {username, password} = req.body
@@ -31,15 +40,15 @@ router.post("/login", function(req, res) {
         if(user.username == username && user.password == password) {
             req.session.userID = username;
             req.session.isAuthenticated = true;
-            res.send(getView("./Views/home.pug", {title: "Video Share App - Home"}));
+            res.send(getView("./Views/Redirects/redirect_home.pug"));
         }
     }
     res.send("Username or Password incorrect. Please go back and try again.")
-})
+});
 
 router.get("/signup", function(req, res) {
     res.send(getView("./Views/create_account.pug", {title: "Video Share App - Sign Up"}));
-})
+});
 
 router.post("/signup", function(req, res) {
     const {username, password, password_confirm} = req.body;
@@ -62,12 +71,53 @@ router.post("/signup", function(req, res) {
             videos_posted: []
         });
         db.update();
-        res.send(getView("./Views/home.pug", {title: "Video Share App - Home"}));
+        req.session.userID = username;
+        req.session.isAuthenticated = true;
+        res.send(getView("./Views/Redirects/redirect_home.pug"));
     }
     else {
         res.send("Sorry, there was an error. Please go back and try a different username.");
     }
-})
+});
+
+router.get("/post-video", function(req, res) {
+    res.send(getView("./Views/add_video.pug", {title: "Video Share App - Post Video"}));
+});
+
+router.post("/post-video", function(req, res) {
+    const {title, description, link} = req.body;
+    var current_user_index = -1;
+    for(let i = 0; i < db.model.users.length; i++) {
+        if(db.model.users[i].username == req.session.userID) {
+            current_user_index = i;
+        }
+    }
+    if(current_user_index >= 0) {
+        const new_video = {
+            title: title,
+            description: description,
+            link: link
+        }
+        db.model.users[current_user_index].videos_posted.push(new_video);
+        db.model.videos.push(new_video);
+        db.update();
+        res.send(getView("./Views/Redirects/redirect_home.pug"));
+    }
+    else {
+        res.send(getView("./Views/Redirects/redirect_root.pug"));
+    }
+});
+
+router.get("/signout", function(req, res) {
+    req.session.destroy((err)=>{
+        if(err) {
+            res.send(err);
+        }
+        else {
+            res.send(getView("./Views/Redirects/redirect_root.pug"));
+        }
+    });
+});
 
 module.exports = router;
 

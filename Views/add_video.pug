@@ -1,0 +1,32 @@
+doctype html
+html 
+    head
+        title #{title}
+        block css
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        
+        block script
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    body 
+        div(class="container text-center")
+            br
+            h4 Fill in all the boxes below to post a video to Video Share.
+            br
+            form(role="form" method="POST" action="http://localhost:3000/app/post-video")
+                div 
+                    label(for="title") Video Short Title: 
+                    br
+                    input(name="title" type="text")
+                div 
+                    label(for="description") Video Short Description: 
+                    br
+                    textarea(name="description") 
+                div 
+                    label(for="link") Video Short Embed Link: 
+                    br
+                    input(type="text" name="link")
+                br
+                button(class="btn btn-primary") Post Video Short
